@@ -10,12 +10,12 @@ class UsersController extends Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->call->library('pagination'); // 
+        $this->call->library('Pagination'); // 
     }
     public function index()
     {
         $this->call->model('UsersModel');
-        $this->call->library('pagination'); // 
+        $this->call->library('Pagination'); // 
 
         $page = 1;
         if(isset($_GET['page']) && ! empty($_GET['page'])) {
@@ -45,12 +45,7 @@ class UsersController extends Controller {
             'page_delimiter' => '&page='
         ]);
 
-        $this->pagination->initialize(
-            $total_rows,
-            $records_per_page,
-            $page,
-            site_url('users/index') . 'users?q=' . urlencode($q)
-        );
+        $this->pagination->initialize($total_rows, $records_per_page, $page, 'users?q='. urldecode($q));
         $data['page'] = $this->pagination->paginate();
 
         $this->call->view('users/index', $data);
